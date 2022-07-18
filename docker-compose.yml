@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: udemy-lamp-mysql
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 'password'
+
+  phpmyadmin:
+    depends_on:
+      - mysql
+    image: phpmyadmin/phpmyadmin
+    container_name: udemy-lamp-phpmyadmin
+    environment:
+      PMA_HOST: mysql
+    ports:
+      - "8080:80"
+
+  php-apache:
+    build:
+        context: ./
+        dockerfile: ./docker/php-apache/Dockerfile
+    container_name: udemy-lamp-php-apache
+    volumes:
+      - ./src:/var/www/html
+      - ./docker/php-apache/php.ini:/usr/local/etc/php/php.ini
+      - ./docker/php-apache/apache2.conf:/etc/apache2/apache2.conf
+    ports:
+      - "80:80"
+    depends_on:
+      - mysql
+
+volumes:
+    db_data: {}
