@@ -28,6 +28,7 @@ services:
       - ./src:/var/www/html
       - ./docker/php-apache/php.ini:/usr/local/etc/php/php.ini
       - ./docker/php-apache/apache2.conf:/etc/apache2/apache2.conf
+      - ./docker/php-apache/security.conf:/etc/apache2/conf-available/security.conf
     ports:
       - "80:80"
     depends_on:

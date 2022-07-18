@@ -5,3 +5,5 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     docker-php-ext-install intl pdo_mysql zip bcmath
+RUN cp /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/ && \
+    cp /etc/apache2/mods-available/headers.load /etc/apache2/mods-enabled/
