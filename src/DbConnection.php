@@ -1,17 +1,20 @@
 <?php
 
 class DbConnection {
-    const DB_HOST = "mysql:dbname=testdb;host=mysql;charset=utf8mb4";
-    const DB_USER = "root";
-    const DB_PASS = "password";
-    const DRIVER_OPTIONS = [
+    private const DB_HOST = "mysql:dbname=testdb;host=mysql;charset=utf8mb4";
+    private const DB_USER = "root";
+    private const DB_PASS = "password";
+    private const DRIVER_OPTIONS = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_EMULATE_PREPARES => false
     ];
-
+    private $pdo;
+    public function __construct() {
+        $this->pdo = new PDO(self::DB_HOST, self::DB_USER, self::DB_PASS, self::DRIVER_OPTIONS);
+    }
     public function getConnection() {
         try {
-            $pdo = new PDO(self::DB_HOST, self::DB_USER, self::DB_PASS, self::DRIVER_OPTIONS);
+            $pdo = $this->pdo;
             $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
             echo "接続成功";
             $sql1 = "SELECT * FROM member WHERE id = 1";
